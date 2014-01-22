@@ -5,4 +5,5 @@ syntax: glob
 404.php
 500.php
 etc/conf.json
-
+packages/*
+node_modules/*
