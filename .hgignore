@@ -4,3 +4,5 @@ syntax: glob
 403.php
 404.php
 500.php
+etc/conf.json
+
