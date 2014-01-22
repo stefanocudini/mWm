@@ -1,8 +1,10 @@
 #!/bin/bash
 
 UBFILE=$(echo $0 | sed 's/\.sh/\.list/g')
-MAILFROM="fail2ban@easyblog.it"
-MAILTO="stefano.cudini@gmail.com"
+MAILFROM="fail2ban@adminsite.com"
+MAILTO="admin@adminsite.com"
+
+#TODO read params from etc/conf.json
 
 if [ ! -f $UBFILE ]; then
 	echo "Error file $UBFILE Not found!"
