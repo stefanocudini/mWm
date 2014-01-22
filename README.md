@@ -14,9 +14,9 @@ fail2ban
 
 #Permissions
 
-keep writable from www-data file: scripts/unbanip-list.list
-keep writable from www-data dir: geoip/cache/
-keep writable only root files scripts/*.sh
+.keep writable from www-data file: scripts/unbanip-list.list
+.keep writable from www-data dir: geoip/cache/
+.keep writable only root files scripts/*.sh
 
 
 #Setup
