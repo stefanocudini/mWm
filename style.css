@@ -89,7 +89,7 @@ input {
 	width:100px;
 	height:38px;
 	margin:-2px auto;
-	background: url('arrows.png') #444 no-repeat;
+	background: url('imgs/arrows.png') #444 no-repeat;
 	background-position: center 6px;
 	border-radius:4px;
 	box-shadow: 0 0 8px #111;		

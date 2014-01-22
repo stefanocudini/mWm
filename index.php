@@ -1,4 +1,6 @@
 <?php
+	if(!file_exists('etc/conf.json'))
+		die('create new file: etc/conf.json');
 
 	$conf = file_get_contents(json_decode('etc/conf.json',true));
 
