@@ -129,7 +129,7 @@ input {
 	word-spacing:-.25em;
 }
 
-#ipbox {
+#geoipbox {
 	box-shadow: 0 0 18px #000;
 	background:#222;
 	z-index:100;

@@ -1,0 +1,8 @@
+{
+	"httphost": "adminsite.com",
+	"httpuser": "admin",
+	"baswedir": "/var/www/adminsite.com/",
+	"logdir": "/var/www/adminsite.com/scripts/",
+	"geoipdir": "/var/www/adminsite.com/geoip/cache/",
+	"ipinfodbapikey": "APIKEY"
+}

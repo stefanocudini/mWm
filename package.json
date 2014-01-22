@@ -1,0 +1,31 @@
+{
+  "name": "mwm",
+  "version": "0.0.1",
+  "description": "Mobile Web Monitor, *nix web interface monitoring for mobile",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stefanocudini/mwm.git"
+  },
+  "homepage": "http://labs.easyblog.it/mwm/",
+  "author": {
+    "name": "Stefano Cudini",
+    "email": "stefano.cudini@gmail.com",
+    "url": "http://labs.easyblog.it/"
+  },
+  "license": "MIT",
+  "keywords": [
+    "linux",
+    "monitoring",
+    "mobile",
+    "interface"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-cli": "~0.1.11",    
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-watch": "~0.5.3"
+  }
+}

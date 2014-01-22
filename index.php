@@ -1,35 +1,31 @@
 <?php
-#TODO aggiungi pulsante per pulire log
 
-	require('easyblog/dateutils.php');
-	require('easyblog/iputils.php');
+	$conf = file_get_contents(json_decode('etc/conf.json',true));
 
-#TODO sftp logins
-#grep sftp /var/log/auth.log -A1
-
-	$logdir = './scripts/';
-	$bantime = intval(shell_exec("grep bantime /etc/fail2ban/jail.conf | grep -v \# | head -n1 | cut -d'=' -f2"));
-	$sshz4kip = 'SSH z4k ip: <em class="ip">'.zakbookip().'</em>';
-
-	$geoipnum = shell_exec('ls /var/cache/geoipcache/ | wc -l');
-	$netstat = shell_exec('netstat -ntpa4 | cut -c 20- | tail -n+3 | sort');
-	$pstree = shell_exec('ps -eo "%u%a" kuid,args | uniq | grep -v "\[\|grep\|uniq\|ps\ -eo\|RUSER" | sed "s/ .*\/[s]*bin\//\t/"');
+	$bantime    = shell_exec("grep bantime /etc/fail2ban/jail.conf | grep -v \# | head -n1 | cut -d'=' -f2");
+	$netstat    = shell_exec('netstat -ntpa4 | cut -c 20- | tail -n+3 | sort');
+	$pstree     = shell_exec('ps -eo "%u%a" kuid,args | uniq | grep -v "\[\|grep\|uniq\|ps\ -eo\|RUSER" | sed "s/ .*\/[s]*bin\//\t/"');
 	$lastlogins = shell_exec('last -8 -aiF | head -n-2');
 
-	$unbanfile = $logdir.'unbanip-list.list';
-	$banfile = $logdir.'banip-list.list';
-	$greplogfile = '/var/log/apache2/'.'*_access.log';
+	$banfile = $conf['logdir'].'banip-list.list';
+	$unbanfile = $conf['logdir'].'unbanip-list.list';
+
+	$banlist = file_get_contents($banfile);
+	$unbanlist = file_get_contents($unbanfile);
+
+	$ipsbanlist = file($conf['logdir'].'lastlog-ipsban.log');
+	$usersshlist = file($conf['logdir'].'lastlog-userssh.log');
 
 	if( !isset($_SERVER["HTTPS"]) )
 	{
-		header('Location: https://'.$_SERVER['SERVER_NAME']);
+		header('Location: https://'.$conf['httphost']);
 		exit(0);
 	}
 	
 	if( !isset($_SERVER['PHP_AUTH_USER']) or !isset($_SERVER['PHP_AUTH_PW']) )
 	{
 	    header('HTTP/1.1 401 Authorization Required');
-	    readfile('401.html');
+		echo "Authorization Required";
 		exit(0);
 	}
 	
@@ -75,16 +71,17 @@
 		endif;
 	endif;
 
-#	if(isset($_GET['greplog']) and !empty($_GET['greplog'])):
-#echo 'prova';
-#		echo shell_exec('grep "'.$_GET['greplog'].'" '.$greplogfile);
 
-#		exit(0);
-#	endif;
-		
+	// if(isset($_GET['greplog']) and !empty($_GET['greplog'])):
+
+	// 	//TODO
+	// 	//grep from /var/log/apache2/*access.log
+
+	// endif;
+
 ?><html>
 <head>
-	<title>Admin <?php echo $_SERVER['SERVER_NAME']; ?></title>
+	<title>Admin <?php echo $conf['httphost']; ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=0.5, user-scalable=no">	
 	<link rel="stylesheet" href="style.css" />
@@ -95,12 +92,11 @@
 ?>
 <div id="top_wrap">
 	<div id="top" style="display:none">
-		<h3>Admin <?php echo $_SERVER['SERVER_NAME']; ?> &bull; <em class="ip"><small><?php echo $_SERVER['SERVER_ADDR']; ?></small></em></h3>
+		<h3>Admin <?php echo $conf['httphost']; ?> &bull; <em class="ip"><small><?php echo $_SERVER['SERVER_ADDR']; ?></small></em></h3>
 		
 		<div id="date"><?php echo date("d/m/Y h:i:s"); ?></div>
 		
 		<div style="text-align:right">
-			<span><?php echo $sshz4kip; ?></span> &bull; 
 			<span><?php
 				echo isset($_SERVER['REMOTE_USER']) ?
 					'Http Auth: '.$_SERVER['REMOTE_USER'].', <em class="ip">'.$_SERVER['REMOTE_ADDR'].'</em>' : 
@@ -110,14 +106,13 @@
 	
 		<div id="menu" class="box">
 			<span><img src="imgs/apache.ico" /> Apache 
-				<a href="sss.php"> Status</a>, 
-				<a href="iii.php"> Info</a>
-			</span> | 
+				<a href="iii.php"> Info</a>, 
+				<a href="sss.php"> Status</a>				
+			</span> |
 			<a href="ppp.php"><img src="imgs/php.ico" /> PHP Info</a> | 
-			<!--a href="nnn/"><img src="http://labs.easyblog.it/dns-320-command-line/dns-320-pulse-icon.png" /> NAS</a> | -->
-			<a href="mmm/"><img src="mmm/favicon.ico" /> PhpMyAdmin</a> | 
-			<a href="ggg/"><img src="ggg/images/themes/default/Favicon.ico" /> PhpPgAdmin</a> | 
-			<a href="rrr/"><img src="imgs/mongo.ico" /> RockMongo</a>
+			<a href="phpmyadmin/"><img src="imgs/phpmyadmin.ico" /> PhpMyAdmin</a> | 
+			<a href="phppgadmin/"><img src="imgs/phppgadmin.ico" /> PhpPgAdmin</a> | 
+			<a href="rockmongo/"><img src="imgs/rockmongo.ico" /> RockMongo</a>
 		</div>
 	
 		<div id="ban" class="box form">
@@ -128,7 +123,7 @@
 				<input type="submit" value="Add" />
 				<input type="submit" name="clear" value="Clear" />
 			</form>
-			<pre style="overflow:hidden"><?php readfile($logdir.'banip-list.list'); ?></pre>
+			<pre style="overflow:hidden"><?php echo $banlist; ?></pre>
 		</div>
 	
 		<div id="unban" class="box form">
@@ -139,12 +134,12 @@
 				<input type="submit" value="Add" />
 				<input type="submit" name="clear" value="Clear" />			
 			</form>
-			<pre style="overflow:hidden"><?php readfile($logdir.'unbanip-list.list'); ?></pre>
+			<pre style="overflow:hidden"><?php echo $unbanlist; ?></pre>
 		</div>
 	
 		<div class="box form">	
 			<form id="geoipform" action="geoip/" method="get">
-				<label><b>Geoip </b><small>(<?php echo $geoipnum; ?> ips)</small></label><br />
+				<label><b>Geoip </b></label><br />
 				<input name="ip" type="text" size="16" value="<? echo $_SERVER['REMOTE_ADDR']?>" /><br />
 				<input type="submit" value="View" />
 			</form>
@@ -155,7 +150,7 @@
 				<input name="greplog" type="text" size="16" value="" />
 				<input type="submit" value="View" />
 			</form>
-		</div-->		
+		</div-->
 	</div>
 	<a id="topup" class="down" href="#down"></a>
 </div>
@@ -167,9 +162,7 @@
 	<small>(bantime: <?php echo Sec2Time($bantime); ?>)</small>
 	<pre id="ipsbanned"><?php
 
-	//readfile($logdir.'lastlog-ipsban.log');
-
-	$ff = file($logdir.'lastlog-ipsban.log');
+	$ff = $ipsbanlist;
 
 	$banned = array();
 	$rec = array();
@@ -216,20 +209,13 @@
 	<pre><?php echo $lastlogins; ?></pre>
 </div>
 
-<!--div class="box">
-	<b>Rsnapshot</b>
-	<pre id="rsnapshot">
-	<?php
-	#readfile($logdir.'lastlog-rsnapshot.log');
-	?>
-	</pre>
-</div-->
-
 <div class="box">
 	<b>SSH Users Failed</b>
 	<div id="userfailed">
 	<?php
-	$uu = file($logdir.'lastlog-userssh.log');
+	
+	$uu = $usersshlist;
+
 	foreach($uu as $row)
 	{
 		list($n,$user) = explode(' ',trim($row));
@@ -253,62 +239,51 @@
 
 </div>
 
-<pre id="ipbox" class="box"></pre>
+<pre id="geoipbox" class="box"></pre>
 
 <script src="jquery-1.9.0.min.js"></script>
-<script>
-$(function() {
-	var geoip$ = $('#ipbox').hide();
-
-	function formatJSON(json) {
-		var html='<a class="aclose" href="#">&times;</a>';
-		for(k in json)
-			html += '<em>'+k+': </em><b>'+json[k]+'</b><br>';
-		return html;
-	}
-	
-	function showIp(ip) {
-		$.getJSON('geoip/?'+ip, function(json) {
-			geoip$.html(formatJSON(json)).show();
-		});
-	}	
-	
-	$('#geoipform').on('submit', function(e) {
-		showIp( $(this).find(':text').val() );
-		return false;
-	});
-	
-	geoip$.on('click', '.aclose', function(e) {
-		e.preventDefault();
-		$(this).parent().hide();
-	});
-	
-	$('.ip').on('click',function(e) {
-		showIp( $(this).text() );
-		return false;
-	});
-	
-	$(window)
-	.on('resize',function(e) {
-		$('#bottom').css({marginTop: $('#top_wrap').height()+16});
-	})
-	.on('hashchange load',function(e) {
-	
-		var hash = window.location.href.split("#")[1];
-	
-		if(hash=='down')
-			$('#top').slideDown('fast', function() {
-				$('#topup').attr({'href':'#up','class':'up'}).trigger('resize');
-			});
-		else if(hash=='up')
-			$('#top').slideUp('fast', function() {
-				$('#topup').attr({'href':'#down','class':'down'}).trigger('resize');
-			});			
-	});
-
-});
-
-</script>
+<script src="admin.js"></script>
 </body>
 </html>
+<?
 
+function Sec2Time($time, $sep=' ')
+{
+  	$time = intval($time);
+
+	$vals = array();
+	
+    if($time >= 31556926){
+		$v = floor($time/31556926);
+		$k = $v>1 ? 'years' : 'year'; 
+		$vals[$k] = $v;
+		$time = ($time%31556926);
+    }
+    if($time >= 86400){
+		$v = floor($time/86400);
+		$k = $v>1 ? 'days' : 'day';		   
+		$vals[$k] = $v;
+		$time = ($time%86400);
+    }
+    if($time >= 3600){
+    	$v = floor($time/3600);
+		$k = $v>1 ? 'hours' : 'hour';    	
+		$vals[$k] = $v;
+		$time = ($time%3600);
+    }
+    if($time >= 60){
+    	$v = floor($time/60);
+		$k = $v>1 ? 'minutes' : 'minute';    	
+		$vals[$k] = $v;
+		$time = ($time%60);
+    }
+
+	$at = array();
+	foreach($vals as $k=>$v)
+		if($v!=0)
+			$at[]= $v.$sep.$k;
+			
+	return implode(' ',$at);
+}
+
+?>
