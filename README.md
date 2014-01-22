@@ -33,3 +33,4 @@ Mobile Web Monitor
 1. create new file ./etc/conf.json from ./etc/conf.default.json
 2. create apache ssl virtual host using ./etc/apache.conf
 3. copy ./etc/crond.conf in /etc/cron.d/mwm
+4. browser https://adminsite.com/admin.php

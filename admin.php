@@ -108,10 +108,10 @@
 	
 		<div id="menu" class="box">
 			<span><img src="imgs/apache.ico" /> Apache 
-				<a href="iii.php"> Info</a>, 
-				<a href="sss.php"> Status</a>				
+				<a href="info.php"> Info</a>, 
+				<a href="status.php"> Status</a>				
 			</span> |
-			<a href="ppp.php"><img src="imgs/php.ico" /> PHP Info</a> | 
+			<a href="php.php"><img src="imgs/php.ico" /> PHP Info</a> | 
 			<a href="phpmyadmin/"><img src="imgs/phpmyadmin.ico" /> PhpMyAdmin</a> | 
 			<a href="phppgadmin/"><img src="imgs/phppgadmin.ico" /> PhpPgAdmin</a> | 
 			<a href="rockmongo/"><img src="imgs/rockmongo.ico" /> RockMongo</a>
