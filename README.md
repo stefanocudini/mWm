@@ -1,4 +1,3 @@
-
 Mobile Web Monitor
 ============
 *nix web interface monitoring for mobile
@@ -6,17 +5,17 @@ Mobile Web Monitor
 
 #Requirements
 
-apache2, mod_auth_basic, mod_ssl, mod_status, mod_info
-php > 5.3
-phpmyadmin
-fail2ban
+* apache2, mod_auth_basic, mod_ssl, mod_status, mod_info
+* php > 5.3
+* phpmyadmin
+* fail2ban
 
 
 #Permissions
 
-.keep writable from www-data file: scripts/unbanip-list.list
-.keep writable from www-data dir: geoip/cache/
-.keep writable only root files scripts/*.sh
+* keep writable from www-data file: scripts/unbanip-list.list
+* keep writable from www-data dir: geoip/cache/
+* keep writable only root files scripts/*.sh
 
 
 #Setup
