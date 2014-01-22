@@ -1,35 +1,35 @@
 <?php
-	if(!file_exists('etc/conf.json'))
-		die('create new file: etc/conf.json');
 
-	$conf = file_get_contents(json_decode('etc/conf.json',true));
+	if(!is_file('./etc/conf.json'))
+		die('create new file: ./etc/conf.json');
+
+	$conf = json_decode(file_get_contents('./etc/conf.json'),true);
 
 	$bantime    = shell_exec("grep bantime /etc/fail2ban/jail.conf | grep -v \# | head -n1 | cut -d'=' -f2");
 	$netstat    = shell_exec('netstat -ntpa4 | cut -c 20- | tail -n+3 | sort');
 	$pstree     = shell_exec('ps -eo "%u%a" kuid,args | uniq | grep -v "\[\|grep\|uniq\|ps\ -eo\|RUSER" | sed "s/ .*\/[s]*bin\//\t/"');
 	$lastlogins = shell_exec('last -8 -aiF | head -n-2');
 
-	$banfile = $conf['logdir'].'banip-list.list';
+	$banfile   = $conf['logdir'].'banip-list.list';
 	$unbanfile = $conf['logdir'].'unbanip-list.list';
 
-	$banlist = file_get_contents($banfile);
-	$unbanlist = file_get_contents($unbanfile);
-
-	$ipsbanlist = file($conf['logdir'].'lastlog-ipsban.log');
+	$banlist     = file($banfile);
+	$unbanlist   = file($unbanfile);
+	$ipsbanlist  = file($conf['logdir'].'lastlog-ipsban.log');
 	$usersshlist = file($conf['logdir'].'lastlog-userssh.log');
 
-	if( !isset($_SERVER["HTTPS"]) )
-	{
-		header('Location: https://'.$conf['httphost']);
-		exit(0);
-	}
+	// if( !isset($_SERVER["HTTPS"]) )
+	// {
+	// 	header('Location: https://'.$conf['httphost']);
+	// 	exit(0);
+	// }
 	
-	if( !isset($_SERVER['PHP_AUTH_USER']) or !isset($_SERVER['PHP_AUTH_PW']) )
-	{
-	    header('HTTP/1.1 401 Authorization Required');
-		echo "Authorization Required";
-		exit(0);
-	}
+	// if( !isset($_SERVER['PHP_AUTH_USER']) or !isset($_SERVER['PHP_AUTH_PW']) )
+	// {
+	//     header('HTTP/1.1 401 Authorization Required');
+	// 	echo "Authorization Required";
+	// 	exit(0);
+	// }
 	
 	if(isset($_GET['clear'])):
 
@@ -94,7 +94,7 @@
 ?>
 <div id="top_wrap">
 	<div id="top" style="display:none">
-		<h3>Admin <?php echo $conf['httphost']; ?> &bull; <em class="ip"><small><?php echo $_SERVER['SERVER_ADDR']; ?></small></em></h3>
+		<h3>mWm: <?php echo $conf['httphost']; ?> &bull; <em class="ip"><small><?php echo $_SERVER['SERVER_ADDR']; ?></small></em></h3>
 		
 		<div id="date"><?php echo date("d/m/Y h:i:s"); ?></div>
 		
@@ -125,7 +125,7 @@
 				<input type="submit" value="Add" />
 				<input type="submit" name="clear" value="Clear" />
 			</form>
-			<pre style="overflow:hidden"><?php echo $banlist; ?></pre>
+			<pre style="overflow:hidden"><?php echo implode('<br>',$banlist); ?></pre>
 		</div>
 	
 		<div id="unban" class="box form">
@@ -136,7 +136,7 @@
 				<input type="submit" value="Add" />
 				<input type="submit" name="clear" value="Clear" />			
 			</form>
-			<pre style="overflow:hidden"><?php echo $unbanlist; ?></pre>
+			<pre style="overflow:hidden"><?php echo implode('<br>',$unbanlist); ?></pre>
 		</div>
 	
 		<div class="box form">	
@@ -164,7 +164,7 @@
 	<small>(bantime: <?php echo Sec2Time($bantime); ?>)</small>
 	<pre id="ipsbanned"><?php
 
-	$ff = $ipsbanlist;
+	$ff = is_array($ipsbanlist)>0 ? $ipsbanlist : array();
 
 	$banned = array();
 	$rec = array();
@@ -216,7 +216,7 @@
 	<div id="userfailed">
 	<?php
 	
-	$uu = $usersshlist;
+	$uu = is_array($usersshlist)>0 ? $usersshlist : array();
 
 	foreach($uu as $row)
 	{

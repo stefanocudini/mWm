@@ -1,7 +1,7 @@
 <?php
 
-	$conf = file_get_contents(json_decode('etc/conf.json',true));
-
+	$conf = json_decode(file_get_contents('./etc/conf.json'),true);
+	
 	if( !isset($_SERVER["HTTPS"]) )
 	{
 		header('Location: https://'.$conf['httphost']);
