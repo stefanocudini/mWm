@@ -1,0 +1,6 @@
+syntax: glob
+400.php
+401.php
+403.php
+404.php
+500.php
