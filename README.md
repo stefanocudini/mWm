@@ -2,6 +2,9 @@ Mobile Web Monitor
 ============
 *nix web interface monitoring for mobile
 
+**Tested on:**
+* iphone 4s iOS 7
+
 #Screenshots
 
 ![Image](https://raw2.github.com/stefanocudini/mWm/master/screeshots/mwm1.png)
@@ -14,12 +17,11 @@ Mobile Web Monitor
 * phpmyadmin
 * fail2ban
 
-
 #Permissions
 
 * keep writable from www-data file: ./scripts/unbanip-list.list
-* keep writable from www-data dir: ./geoip/cache/
-* keep writable only root files ./scripts/*.sh
+* keep writable from www-data dir:  ./geoip/cache/
+* keep writable only root files:    ./scripts/*.sh
 
 
 #Setup
