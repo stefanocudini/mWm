@@ -1,6 +1,6 @@
 $(function() {
 	
-	var geoip$ = $('#geoipbox').hide();
+	var geoip$ = $('#geoipbox');//.hide();
 
 	function formatJSON(json) {
 		var html='<a class="aclose" href="#">&times;</a>';
@@ -10,7 +10,7 @@ $(function() {
 	}
 	
 	function showIp(ip) {
-		$.getJSON('geoip/?'+ip, function(json) {
+		$.getJSON(window.location.href, {geoip: ip }, function(json) {
 			geoip$.html(formatJSON(json)).show();
 		});
 	}	
@@ -25,7 +25,7 @@ $(function() {
 		$(this).parent().hide();
 	});
 	
-	$('.ip').on('click',function(e) {
+	$('.ip').on('click', function(e) {
 		showIp( $(this).text() );
 		return false;
 	});

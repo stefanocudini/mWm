@@ -81,9 +81,11 @@
 
 		$ip = trim($_GET['geoip']);
 
-		header("Content-type: text/plain");
+		header('Content-type: application/json; charset=utf-8');
 
 		echo geoip($ip);
+
+		exit(0);
 
 	endif;
 
