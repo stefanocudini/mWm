@@ -16,7 +16,7 @@ MIT License
 
 #Screenshots
 
-![Image](https://raw2.github.com/stefanocudini/mWm/master/screeshots/mwm1.png)
+![Image](https://raw2.github.com/stefanocudini/mWm/master/screenshots/mwm1.png)
 
 #Features
 
