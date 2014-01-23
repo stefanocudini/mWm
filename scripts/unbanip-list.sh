@@ -28,7 +28,7 @@ for ip in $IPS; do
 	UNBANIP $ip > /dev/null 2>&1
 done
 
-printf %b "Subject: [Fail2Ban] Unban ip by admin.easyblog.it
+printf %b "Subject: [Fail2Ban] Unban ip mWm
 From: Fail2Ban <$MAILFROM>
 To: $MAILTO\n
 Unbanned ips:

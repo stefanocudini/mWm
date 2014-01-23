@@ -30,7 +30,7 @@ for ip in $IPS; do
 	BANIP $ip > /dev/null 2>&1
 done
 
-printf %b "Subject: [Fail2Ban] Ban ip by admin.easyblog.it
+printf %b "Subject: [Fail2Ban] Ban ip by mWm
 From: Fail2Ban <$MAILFROM>
 To: $MAILTO\n
 Banned ips:
