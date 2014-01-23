@@ -7,7 +7,8 @@ Copyright(c) 2014 [Stefano Cudini](http://labs.easyblog.it/stefano-cudini/)
 MIT License
 
 **Tested on:**
-* iphone 4s iOS 7
+* Server: Debian Squeeze
+* Client: iPhone 4s iOS 7
 
 
 **Source code:**  
