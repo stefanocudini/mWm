@@ -256,7 +256,7 @@
 
 </div>
 
-<pre id="geoipbox" class="box"></pre>
+<pre id="geoipbox" class="box" style="display:none"></pre>
 
 <script src="jquery-1.9.0.min.js"></script>
 <script src="admin.js"></script>
