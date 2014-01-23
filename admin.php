@@ -5,10 +5,11 @@
 
 	$conf = json_decode(file_get_contents('./etc/conf.json'),true);
 
-	$bantime    = shell_exec("grep bantime /etc/fail2ban/jail.conf | grep -v \# | head -n1 | cut -d'=' -f2");
-	$netstat    = shell_exec('netstat -ntpa4 | cut -c 20- | tail -n+3 | sort');
-	$pstree     = shell_exec('ps -eo "%u%a" kuid,args | uniq | grep -v "\[\|grep\|uniq\|ps\ -eo\|RUSER" | sed "s/ .*\/[s]*bin\//\t/"');
-	$lastlogins = shell_exec('last -8 -aiF | head -n-2');
+	$bantime = shell_exec("grep bantime /etc/fail2ban/jail.conf | grep -v \# | head -n1 | cut -d'=' -f2");
+	$uptime  = shell_exec('uptime | cut -d"," -f1');
+	$netstat = shell_exec('netstat -ntpa4 | cut -c 20- | tail -n+3 | sort');
+	$pstree  = shell_exec('ps -eo "%u%a" kuid,args | uniq | grep -v "\[\|grep\|uniq\|ps\ -eo\|RUSER" | sed "s/ .*\/[s]*bin\//\t/"');
+	$logins  = shell_exec('last -8 -aiF | head -n-2');
 
 	$banfile   = $conf['logdir'].'banip-list.list';
 	$unbanfile = $conf['logdir'].'unbanip-list.list';
@@ -18,18 +19,19 @@
 	$ipsbanlist  = file($conf['logdir'].'lastlog-ipsban.log');
 	$usersshlist = file($conf['logdir'].'lastlog-userssh.log');
 
-	// if( !isset($_SERVER["HTTPS"]) )
-	// {
-	// 	header('Location: https://'.$conf['httphost']);
-	// 	exit(0);
-	// }
+	if( !isset($_SERVER["HTTPS"]) )
+	{
+		header('Location: https://'.$conf['httphost']);
+		echo "Require ssl";
+		exit(0);
+	}
 	
-	// if( !isset($_SERVER['PHP_AUTH_USER']) or !isset($_SERVER['PHP_AUTH_PW']) )
-	// {
-	//     header('HTTP/1.1 401 Authorization Required');
-	// 	echo "Authorization Required";
-	// 	exit(0);
-	// }
+	if( !isset($_SERVER['PHP_AUTH_USER']) or !isset($_SERVER['PHP_AUTH_PW']) )
+	{
+	    header('HTTP/1.1 401 Authorization Required');
+		echo "Authorization Required";
+		exit(0);
+	}
 	
 	if(isset($_GET['clear'])):
 
@@ -73,12 +75,33 @@
 		endif;
 	endif;
 
+	if(isset($_GET['geoip']) and !empty($_GET['geoip'])):
+	
+		require_once('geoip/geoip.lib.php');
 
+		$ip = trim($_GET['geoip']);
+
+		header("Content-type: text/plain");
+
+		echo geoip($ip);
+
+	endif;
+
+	if(isset($_GET['info'])):
+		readfile('http://127.0.0.1/server-info');
+	endif;
+
+	if(isset($_GET['status'])):
+		readfile('http://127.0.0.1/server-status');
+	endif;
+
+	if(isset($_GET['phpinfo'])):
+		phpinfo();
+	endif;
+	
 	// if(isset($_GET['greplog']) and !empty($_GET['greplog'])):
-
 	// 	//TODO
 	// 	//grep from /var/log/apache2/*access.log
-
 	// endif;
 
 ?><html>
@@ -89,39 +112,37 @@
 	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<?php
-
-?>
 <div id="top_wrap">
 	<div id="top" style="display:none">
-		<h3>mWm: <?php echo $conf['httphost']; ?> &bull; <em class="ip"><small><?php echo $_SERVER['SERVER_ADDR']; ?></small></em></h3>
+		<div style="float:left">
+			<?php echo $conf['httphost']; ?> &bull; <em class="ip"><small><?php echo $_SERVER['SERVER_ADDR']; ?></small></em>
+		</div>
 		
-		<div id="date"><?php echo date("d/m/Y h:i:s"); ?></div>
-		
-		<div style="text-align:right">
+		<div style="float:right">
 			<span><?php
 				echo isset($_SERVER['REMOTE_USER']) ?
-					'Http Auth: '.$_SERVER['REMOTE_USER'].', <em class="ip">'.$_SERVER['REMOTE_ADDR'].'</em>' : 
+					'Http User: '.$_SERVER['REMOTE_USER'] : 
 					'<b style="color:red">No Http Auth!!</b>';
 			?></span>	
+			 &bull; <span><?php echo $uptime; ?></span>
 		</div>
 	
 		<div id="menu" class="box">
 			<span><img src="imgs/apache.ico" /> Apache 
-				<a href="info.php"> Info</a>, 
-				<a href="status.php"> Status</a>				
-			</span> |
-			<a href="php.php"><img src="imgs/php.ico" /> PHP Info</a> | 
-			<a href="phpmyadmin/"><img src="imgs/phpmyadmin.ico" /> PhpMyAdmin</a> | 
-			<a href="phppgadmin/"><img src="imgs/phppgadmin.ico" /> PhpPgAdmin</a> | 
-			<a href="rockmongo/"><img src="imgs/rockmongo.ico" /> RockMongo</a>
+				<a href="<?php echo $_SERVER['PHP_SELF']; ?>?info"> Info</a>, 
+				<a href="<?php echo $_SERVER['PHP_SELF']; ?>?status"> Status</a>				
+			</span>
+			| <a href="<?php echo $_SERVER['PHP_SELF']; ?>?phpinfo"><img src="imgs/php.ico" /> PHP Info</a>
+			| <a href="phpmyadmin/"><img src="imgs/phpmyadmin.ico" /> PhpMyAdmin</a>
+			| <a href="phppgadmin/"><img src="imgs/phppgadmin.ico" /> PhpPgAdmin</a>
+			<!-- | <a href="rockmongo/"><img src="imgs/rockmongo.ico" /> RockMongo</a> -->
 		</div>
 	
 		<div id="ban" class="box form">
 			<form action="" method="get">
 				<input type="hidden" name="ban" value="" />
 				<label><b>Ban </label><br />
-				<input name="ip" type="text" size="16" value="" /><br />
+				<input name="ip" type="text" value="" /><br />
 				<input type="submit" value="Add" />
 				<input type="submit" name="clear" value="Clear" />
 			</form>
@@ -132,17 +153,17 @@
 			<form action="" method="get">
 				<input type="hidden" name="unban" value="" />
 				<label><b>Unban </b></label><br />
-				<input name="ip" type="text" size="16" value="<? echo $_SERVER['REMOTE_ADDR']; ?>" /><br />
+				<input name="ip" type="text" value="<? echo $_SERVER['REMOTE_ADDR']; ?>" /><br />
 				<input type="submit" value="Add" />
 				<input type="submit" name="clear" value="Clear" />			
 			</form>
 			<pre style="overflow:hidden"><?php echo implode('<br>',$unbanlist); ?></pre>
 		</div>
 	
-		<div class="box form">	
-			<form id="geoipform" action="geoip/" method="get">
+		<div class="box form">
+			<form id="geoipform" action="" method="get">
 				<label><b>Geoip </b></label><br />
-				<input name="ip" type="text" size="16" value="<? echo $_SERVER['REMOTE_ADDR']?>" /><br />
+				<input name="geoip" type="text" value="<? echo $_SERVER['REMOTE_ADDR']?>" /><br />
 				<input type="submit" value="View" />
 			</form>
 		</div>	
@@ -154,6 +175,7 @@
 			</form>
 		</div-->
 	</div>
+	<div id="logo"><small>powered by</small> <a target="_blank" href="http://labs.easyblog.it/mwm/"> mWm </a></div>
 	<a id="topup" class="down" href="#down"></a>
 </div>
 
@@ -208,7 +230,7 @@
 
 <div id="lastlogins" class="box">
 	<b>SSH Last Sessions</b>	
-	<pre><?php echo $lastlogins; ?></pre>
+	<pre><?php echo $logins; ?></pre>
 </div>
 
 <div class="box">
@@ -228,15 +250,6 @@
 	}
 	?>
 	</div>
-</div>
-
-<div class="box">
-	<b>Backups</b>
-	<pre id="backups">
-	<?php
-		readfile($logdir.'lastlog-backups.log');
-	?>
-	</pre>
 </div>
 
 </div>

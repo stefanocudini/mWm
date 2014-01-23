@@ -14,12 +14,26 @@ Mobile Web Monitor
 
 ![Image](https://raw2.github.com/stefanocudini/mWm/master/screeshots/mwm1.png)
 
+#Features
+
+* Mobile browsing
+* Secure access
+* Un/Ban ips address
+* IP location finder
+* Fail2ban logs
+* Ports monitoring
+* Processes monitoring
+* PHP errors monitoring
+* SSH users attempts cloud
+* SSH recent logins
+
 #Requirements
 
 * apache2, mod_auth_basic, mod_ssl, mod_status, mod_info
 * php > 5.3
 * phpmyadmin
 * fail2ban
+* API KEY from [ipinfodb.com](http://ipinfodb.com/)
 
 #Permissions
 

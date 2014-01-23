@@ -1,3 +1,9 @@
+
+*, *:after, *:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 body {
 	font-family:Arial;
 	background: #333;
@@ -12,15 +18,13 @@ a:hover {
 	color:#eee;
 }
 .ip {
-	color:#f80;
 }
 .ip:hover {
 	cursor:pointer;
-	color:red;
+	color:#f80;
 }
 h3 {
 	margin:0;
-	text-transform: capitalize;
 	position:relative;
 }
 hr {
@@ -32,16 +36,12 @@ hr {
 	border:2px solid #aaa;
 	border-radius:8px;
 	box-shadow: 0 0 16px #111;	
-	margin-bottom:20px;
 	padding:10px;
-	position:relative;
-	left:10px;
-	margin-right:20px;
+	margin:20px 0.5%;
 }
 .box.form {
 	float:left;
-	width:27%;
-	margin:1%;
+	width:32.33%;
 }
 .box b {
 	color:#f80;
@@ -59,7 +59,27 @@ input {
 	color:#ccc;
 	background:#333;
 	border:2px solid #aaa;
-	border-radius:4px;
+	border-radius:5px;
+}
+input[type=text] {
+	width: 100%;
+}
+input[type=submit] {
+	font-weight: bold;
+	padding: 3px 6px 2px 6px;
+	cursor: pointer;
+}
+input[type=submit]:hover {
+	color: #f80;	
+}
+#logo {
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	font-size: 12px;
+	color:#888;
+	text-shadow: 1px 1px 3px #000;
+	padding: 2px;
 }
 #date {
 	position:absolute;
@@ -105,6 +125,7 @@ input {
 	clear:both;
 	overflow-x:scroll;
 	padding:15px 10px;
+	margin-top: 28px;
 	font-size:20px;
 	background:#422;
 	white-space:nowrap;	
