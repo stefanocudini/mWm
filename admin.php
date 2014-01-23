@@ -177,7 +177,7 @@
 			</form>
 		</div-->
 	</div>
-	<div id="logo"><small>powered by</small> <a target="_blank" href="http://labs.easyblog.it/mwm/"> mWm </a></div>
+	<div id="logo"><small>powered by</small> <a target="_blank" href="http://labs.easyblog.it/mobile-web-monitor/"> mWm </a></div>
 	<a id="topup" class="down" href="#down"></a>
 </div>
 
