@@ -2,6 +2,10 @@ Mobile Web Monitor
 ============
 *nix web interface monitoring for mobile
 
+Copyright(c) 2014 [Stefano Cudini](http://labs.easyblog.it/stefano-cudini/)
+
+MIT License
+
 **Tested on:**
 * iphone 4s iOS 7
 
