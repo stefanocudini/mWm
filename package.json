@@ -17,7 +17,7 @@
     "linux",
     "monitoring",
     "mobile",
-    "interface"
+    "server"
   ],
   "devDependencies": {
     "grunt": "~0.4.2",
