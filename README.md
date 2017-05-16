@@ -13,11 +13,12 @@ MIT License
 
 **Source code:**  
 [Github](https://github.com/stefanocudini/mwm)  
-[Bitbucket](https://bitbucket.org/zakis_/mwm)
 
 #Screenshots
 
-![Image](https://raw2.github.com/stefanocudini/mWm/master/screenshots/mwm1.png)
+![Image](https://raw.githubusercontent.com/stefanocudini/mWm/master/screenshots/mwm1.png)
+![Image](https://raw.githubusercontent.com/stefanocudini/mWm/master/screenshots/mwm2.png)
+![Image](https://raw.githubusercontent.com/stefanocudini/mWm/master/screenshots/mwm3.png)
 
 #Features
 
