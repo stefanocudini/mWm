@@ -14,13 +14,13 @@ MIT License
 **Source code:**  
 [Github](https://github.com/stefanocudini/mwm)  
 
-#Screenshots
+# Screenshots
 
 ![Image](https://raw.githubusercontent.com/stefanocudini/mWm/master/screenshots/mwm1.png)
 ![Image](https://raw.githubusercontent.com/stefanocudini/mWm/master/screenshots/mwm2.png)
 ![Image](https://raw.githubusercontent.com/stefanocudini/mWm/master/screenshots/mwm3.png)
 
-#Features
+# Features
 
 * Mobile browsing
 * Secure access
@@ -33,7 +33,7 @@ MIT License
 * SSH users attempts cloud
 * SSH recent logins
 
-#Requirements
+# Requirements
 
 * apache2, mod_auth_basic, mod_ssl, mod_status, mod_info
 * php > 5.3
@@ -41,14 +41,14 @@ MIT License
 * fail2ban
 * API KEY from [ipinfodb.com](http://ipinfodb.com/)
 
-#Permissions
+# Permissions
 
 * keep writable from www-data file: ./scripts/unbanip-list.list
 * keep writable from www-data dir:  ./geoip/cache/
 * keep writable only root files:    ./scripts/*.sh
 
 
-#Setup
+# Setup
 
 1. create new file ./etc/conf.json from ./etc/conf.default.json
 2. create apache ssl virtual host using ./etc/apache.conf
