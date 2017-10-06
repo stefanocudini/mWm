@@ -37,8 +37,11 @@ MIT License
 
 * apache2, mod_auth_basic, mod_ssl, mod_status, mod_info
 * php > 5.3
-* phpmyadmin
 * fail2ban
+
+# Optionals
+
+* phpmyadmin
 * API KEY from [ipinfodb.com](http://ipinfodb.com/)
 
 # Permissions
