@@ -90,11 +90,11 @@
 	endif;
 
 	if(isset($_GET['info'])):
-		readfile('http://127.0.0.1/server-info');
+		readfile('https://127.0.0.1/server-info');
 	endif;
 
 	if(isset($_GET['status'])):
-		readfile('http://127.0.0.1/server-status');
+		readfile('https://127.0.0.1/server-status');
 	endif;
 
 	if(isset($_GET['phpinfo'])):
@@ -177,7 +177,7 @@
 			</form>
 		</div-->
 	</div>
-	<div id="logo"><small>powered by</small> <a target="_blank" href="http://labs.easyblog.it/mobile-web-monitor/"> mWm </a></div>
+	<div id="logo"><small>powered by</small> <a target="_blank" href="https://opengeo.tech/mobile-web-monitor/"> mWm </a></div>
 	<a id="topup" class="down" href="#down"></a>
 </div>
 

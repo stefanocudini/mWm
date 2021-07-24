@@ -2,7 +2,7 @@ Mobile Web Monitor
 ============
 *nix web interface monitoring for mobile
 
-Copyright(c) 2014 [Stefano Cudini](http://labs.easyblog.it/stefano-cudini/)
+Copyright(c) 2014 [Stefano Cudini](https://opengeo.tech/stefano-cudini/)
 
 MIT License
 
@@ -39,7 +39,7 @@ MIT License
 * php > 5.3
 * phpmyadmin
 * fail2ban
-* API KEY from [ipinfodb.com](http://ipinfodb.com/)
+* API KEY from [ipinfodb.com](https://ipinfodb.com/)
 
 #Permissions
 

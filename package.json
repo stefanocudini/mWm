@@ -6,11 +6,11 @@
     "type": "git",
     "url": "git@github.com:stefanocudini/mwm.git"
   },
-  "homepage": "http://labs.easyblog.it/mobile-web-monitor/",
+  "homepage": "https://opengeo.tech/mobile-web-monitor/",
   "author": {
     "name": "Stefano Cudini",
     "email": "stefano.cudini@gmail.com",
-    "url": "http://labs.easyblog.it/"
+    "url": "https://opengeo.tech/"
   },
   "license": "MIT",
   "keywords": [
