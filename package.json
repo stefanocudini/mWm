@@ -1,6 +1,6 @@
 {
   "name": "mwm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Mobile Web Monitor, *nix web interface monitoring for mobile",
   "repository": {
     "type": "git",
