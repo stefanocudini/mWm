@@ -97,10 +97,6 @@
 		readfile('https://127.0.0.1/server-status');
 	endif;
 
-	if(isset($_GET['phpinfo'])):
-		phpinfo();
-	endif;
-	
 	// if(isset($_GET['greplog']) and !empty($_GET['greplog'])):
 	// 	//TODO
 	// 	//grep from /var/log/apache2/*access.log
@@ -134,7 +130,6 @@
 				<a href="<?php echo $_SERVER['PHP_SELF']; ?>?info"> Info</a>, 
 				<a href="<?php echo $_SERVER['PHP_SELF']; ?>?status"> Status</a>				
 			</span>
-			| <a href="<?php echo $_SERVER['PHP_SELF']; ?>?phpinfo"><img src="imgs/php.ico" /> PHP Info</a>
 			| <a href="phpmyadmin/"><img src="imgs/phpmyadmin.ico" /> PhpMyAdmin</a>
 			| <a href="phppgadmin/"><img src="imgs/phppgadmin.ico" /> PhpPgAdmin</a>
 			<!-- | <a href="rockmongo/"><img src="imgs/rockmongo.ico" /> RockMongo</a> -->
